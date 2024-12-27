@@ -15,6 +15,9 @@ const router = express.Router();
 //  *       401:
 //  *         description: Unauthorized, user not authenticated
 //  */
-// router.get('/logout', passportLogout);
+router.get('/test/:id', function (req, res) {
+  const id = req.params.id;
+  return res.status(200).json({ message: 'testing', id });
+});
 
 export default router;
