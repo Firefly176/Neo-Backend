@@ -18,10 +18,10 @@ const router = express.Router();
 router.use('/auth', AuthRoutes);
 
 /**
- * Mounts authentication-related routes under the '/auth' path.
- * All routes defined in AuthRoutes will be prefixed with '/auth'.
+ * Mounts authentication-related routes under the '/web3' path.
+ * All routes defined in AuthRoutes will be prefixed with '/web3'.
  * @example
- * // If an endpoint is defined as /login in AuthRoutes, it will be accessible at /api/v1/auth/login
+ * // If an endpoint is defined as /login in AuthRoutes, it will be accessible at /api/v1/web3/login
  */
 router.use('/web3', Web3Routes);
 

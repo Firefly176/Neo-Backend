@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
 }
 
@@ -10,25 +10,32 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(cuid())
-  walletAddress String   @unique
-  isDeleted     Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id            String        @id @default(cuid())
+  walletAddress String        @unique
+  isDeleted     Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   deletedAt     DateTime?
   transactions  Transaction[]
 }
 
 model Transaction {
-  id              String   @id @default(cuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id])
+  id               String            @id @default(cuid())
+  userId           String
   recipientAddress String
-  amount          Float
-  isDeleted       Boolean  @default(false)
-  scheduledDate   DateTime
-  status          String   @default("PENDING") // PENDING, COMPLETED, FAILED
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  deletedAt       DateTime?
+  message          String?
+  amount           Float
+  isDeleted        Boolean           @default(false)
+  scheduledDate    DateTime
+  status           TransactionStatus
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  deletedAt        DateTime?
+  user             User              @relation(fields: [userId], references: [id])
+}
+
+enum TransactionStatus {
+  SCHEDULED
+  EXECUTED
+  CANCELLED
 }

@@ -1,20 +1,33 @@
+/**
+ * @file index.js
+ * @description This file contains routes for all Web3-related functionalities.
+ */
+
 import express from 'express';
+import { getBalance } from '../../controllers/web3/getBalance.js';
 const router = express.Router();
 
-// /**
-//  * @swagger
-//  * /auth/logout:
-//  *   get:
-//  *     summary: Logs out the current user
-//  *     description: Destroys the session and logs out the user.
-//  *     tags:
-//  *       - Authentication
-//  *     responses:
-//  *       200:
-//  *         description: Logout successful
-//  *       401:
-//  *         description: Unauthorized, user not authenticated
-//  */
+/**
+ * @swagger
+ * /api/v1/web3/getBalance:
+ *   get:
+ *     summary: Gets the wallet balance of the required address.
+ *     description: Gets the wallet balance of the required address.
+ *     parameters:
+ *       - in: query
+ *         name: address
+ *         required: true
+ *         schema:
+ *           type: string 
+ *     tags:
+ *       - Web3
+ *     responses:
+ *       200:
+ *         description: Wallet Balance successfully retreived.
+ *       401:
+ *         description: Failed to retreive the Wallet Balance.
+ */
+router.get('/getBalance', getBalance);
 
 router.get('/test/:id', function (req, res) {
   const id = req.params.id;

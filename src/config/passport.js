@@ -4,8 +4,8 @@
  */
 
 import passport from 'passport';
-import '../strategies/googleStrategy.js';
-import '../strategies/linkedinStrategy.js';
+// import '../strategies/googleStrategy.js';
+// import '../strategies/linkedinStrategy.js';
 import '../strategies/localStrategy.js';
 import prisma from '../db/index.js';
 
