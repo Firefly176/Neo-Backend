@@ -3,17 +3,15 @@ import logger from '../../utils/logger.js';
 
 export const createTransaction = async (req, res) => {
   try {
-    const { walletAddress, recipientAddress, message, amount, scheduledDate } =
-      req.body;
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const user = req.user;
+    const { receiverAddress, message, amount, scheduleDateTime } = req.body;
 
     // Validate required fields
-    if (
-      !walletAddress ||
-      !recipientAddress ||
-      !message ||
-      !amount ||
-      !scheduledDate
-    ) {
+    if (!receiverAddress || !message || !amount || !scheduleDateTime) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -23,14 +21,14 @@ export const createTransaction = async (req, res) => {
       // After the web3 function is completed, create the transaction record
       const transaction = await prismaClient.transaction.create({
         data: {
-          recipientAddress,
+          recipientAddress: receiverAddress,
           message,
-          amount,
-          scheduledDate,
+          amount: parseFloat(amount),
+          scheduledDate: scheduleDateTime,
           status: 'SCHEDULED',
           user: {
             connect: {
-              walletAddress,
+              walletAddress: user.walletAddress,
             },
           },
         },
