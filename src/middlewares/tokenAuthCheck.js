@@ -7,6 +7,7 @@
 
 import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../config/index.js';
+import prisma from '../db/index.js';
 
 /**
  * Middleware to authenticate the user using a JWT passed in the Authorization header.
@@ -20,7 +21,7 @@ import { JWT_SECRET } from '../config/index.js';
  * @returns {void} If the token is valid, the middleware calls `next()` to pass control to the next handler.
  *                  If the token is missing or invalid, it sends a `401 Unauthorized` or `400 Bad Request` response.
  */
-const authenticate = (req, res, next) => {
+const authenticate = async (req, res, next) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   // Check if the token exists in the Authorization header
@@ -29,7 +30,12 @@ const authenticate = (req, res, next) => {
   try {
     // Verify the token using JWT_SECRET
     const verified = jwt.verify(token, JWT_SECRET);
-    req.user = verified; // Attach the decoded user information to the request object
+    const user = await prisma.user.findUnique({
+      where: { id: verified.userId },
+      select: { id: true, walletAddress: true },
+    });
+
+    req.user = user; // Attach the decoded user information to the request object
     next(); // Proceed to the next middleware or route handler
   } catch (error) {
     // If token verification fails, send a 400 Bad Request response
