@@ -1,5 +1,5 @@
 /**
- * @file controller/web3/getBalance.js
+ * @file controller/web3/instantTransaction.js
  * @description This controller handles retrieving the balance of a specified wallet address
  * from a locally running Hardhat node. It uses ethers.js to interact with the blockchain
  * and returns the balance in Ether.
@@ -17,7 +17,7 @@ import web3Service from '../../services/web3Service.js';
  * an error during the process, an appropriate error response is sent.
  *
  * @async
- * @function getBalance
+ * @function instantTransaction
  * @param {object} req - The request object, containing the wallet address in query or body.
  * @param {object} res - The response object used to send back the balance or error messages.
  * @returns {object} A JSON response containing the address and its balance in Ether.
@@ -30,16 +30,16 @@ import web3Service from '../../services/web3Service.js';
  * // res.status(400).json({ error: 'Wallet address is required' });
  */
 
-export const getBalance = async (req, res) => {
-  try {
-    const { address } = req.query;
-    if (!address) {
-      return res.status(400).json({ error: 'Wallet address is required' });
+export const instantTransaction = async (req, res) => {
+    try {
+        const { senderAddress, recipientAddress, amount } = req.body;
+        if (!senderAddress || !recipientAddress || !amount) {
+        return res.status(400).json({ error: 'Missing required parameters' });
+        }
+        const result = await web3Service.instantTransaction(senderAddress, recipientAddress, ethers.parseEther(amount));
+        res.json({ transactionHash: result.transactionHash });
+    } catch (error) {
+        logger.error('Error executing instant transaction:', error);
+        res.status(500).json({ error: 'Failed to execute instant transaction' });
     }
-    const balance = await web3Service.getBalance(address);
-    res.json({ address, balance });
-  } catch (error) {
-    logger.error('Error getting balance:', error);
-    res.status(500).json({ error: 'Failed to get balance' });
-  }
 };

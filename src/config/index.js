@@ -91,3 +91,21 @@ export const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
  * @constant {string}
  */
 export const LINKEDIN_REDIRECT_URI = process.env.LINKEDIN_REDIRECT_URI;
+
+/**
+ * RPC URL
+ * @constant {string}
+ */
+export const rpcUrl = process.env.RPC_URL || 'http://127.0.0.1:8545';
+
+/**
+ * Mock Token Contract Address
+ * @constant {string}
+ */
+export const mockTokenAddress = process.env.MOCK_TOKEN_ADDRESS;
+
+/**
+ * Payment Scheduler Contract Address
+ * @constant {string}
+ */
+export const paymentSchedulerAddress = process.env.PAYMENT_SCHEDULER_ADDRESS;
