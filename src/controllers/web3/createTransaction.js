@@ -3,17 +3,15 @@ import logger from '../../utils/logger.js';
 
 export const createTransaction = async (req, res) => {
   try {
-    const { walletAddress, recipientAddress, message, amount, scheduledDate } =
-      req.body;
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const user = req.user;
+    const { recipientAddress, message, amount, scheduledDate } = req.body;
 
     // Validate required fields
-    if (
-      !walletAddress ||
-      !recipientAddress ||
-      !message ||
-      !amount ||
-      !scheduledDate
-    ) {
+    if (!recipientAddress || !message || !amount || !scheduledDate) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -25,12 +23,12 @@ export const createTransaction = async (req, res) => {
         data: {
           recipientAddress,
           message,
-          amount,
+          amount: parseFloat(amount),
           scheduledDate,
           status: 'SCHEDULED',
           user: {
             connect: {
-              walletAddress,
+              walletAddress: user.walletAddress,
             },
           },
         },
@@ -39,7 +37,7 @@ export const createTransaction = async (req, res) => {
       return transaction;
     });
 
-    return res.status(201).json(newTransaction);
+    return res.status(201).json({ status: true });
   } catch (error) {
     logger.error('Transaction error:', error);
     return res.status(500).json({ error: 'Failed to create transaction' });
