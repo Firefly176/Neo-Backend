@@ -17,6 +17,7 @@ import {
 import { getPassportUser } from '../../controllers/auth/getPassportUser.js';
 import { sessionLoginUser } from '../../controllers/auth/sessionLogin.js';
 import { sessionRegisterUser } from '../../controllers/auth/sessionRegisterUser.js';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
@@ -264,5 +265,21 @@ router.post(
  *         description: Unauthorized, user not authenticated
  */
 router.get('/logout', passportLogout);
+
+// Authentication route
+router.post('/web3', passport.authenticate('web3'), (req, res) => {
+  const token = jwt.sign({ userId: req.user.id }, process.env.JWT_SECRET, {
+    expiresIn: '24h', // Token expires in 24 hours.
+  });
+  res.json({ token });
+});
+
+// Protected route example
+router.get('/profile', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  res.json({ user: req.user });
+});
 
 export default router;

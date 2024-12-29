@@ -31,11 +31,13 @@
     "morgan": "^1.10.0",
     "npm": "^10.9.0",
     "passport": "^0.7.0",
+    "passport-custom": "^1.1.1",
     "passport-google-oauth20": "^2.0.0",
     "passport-linkedin-oauth2": "github:auth0/passport-linkedin-oauth2",
     "passport-local": "^1.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "web3": "^4.16.0",
     "winston": "^3.16.0"
   },
   "devDependencies": {
