@@ -5,6 +5,7 @@
 
 import express from "express";
 import { getBalance } from "../../controllers/web3/getBalance.js";
+import { instantTransaction } from "../../controllers/web3/instantTransaction.js";
 import { createTransaction } from "../../controllers/web3/createTransaction.js";
 const router = express.Router();
 
@@ -32,7 +33,29 @@ router.get("/getBalance", getBalance);
 
 /**
  * @swagger
- * /api/v1/web3/transaction:
+ * /api/v1/web3/instantTransaction:
+ *   post:
+ *     summary: Creates an instant transaction from one wallet to another.
+ *     description: Creates an instant transaction from one wallet to another.
+ *     parameters:
+ *       - in: body
+ *         name: address
+ *         required: true
+ *         schema:
+ *           type: string
+ *     tags:
+ *       - Web3
+ *     responses:
+ *       201:
+ *         description: Transaction successfully created.
+ *       401:
+ *         description: Failed to create transaction.
+ */
+router.post('/instantTransaction', instantTransaction);
+
+/**
+ * @swagger
+ * /api/v1/web3/createTransaction:
  *   post:
  *     summary: Creates a transaction from one wallet to another.
  *     description: Creates a transaction from one wallet to another.
@@ -50,7 +73,7 @@ router.get("/getBalance", getBalance);
  *       401:
  *         description: Failed to create transaction.
  */
-router.post("/transaction", createTransaction);
+router.post("/createTransaction", createTransaction);
 
 router.get("/test/:id", function (req, res) {
   const id = req.params.id;
