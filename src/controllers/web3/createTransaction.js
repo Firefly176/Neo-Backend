@@ -1,5 +1,5 @@
-import prisma from "../../db/index.js";
-import logger from "../../utils/logger.js";
+import prisma from '../../db/index.js';
+import logger from '../../utils/logger.js';
 
 export const createTransaction = async (req, res) => {
   try {
@@ -14,7 +14,7 @@ export const createTransaction = async (req, res) => {
       !amount ||
       !scheduledDate
     ) {
-      return res.status(400).json({ error: "Missing required fields" });
+      return res.status(400).json({ error: 'Missing required fields' });
     }
 
     const newTransaction = await prisma.$transaction(async (prismaClient) => {
@@ -27,7 +27,7 @@ export const createTransaction = async (req, res) => {
           message,
           amount,
           scheduledDate,
-          status: "SCHEDULED",
+          status: 'SCHEDULED',
           user: {
             connect: {
               walletAddress,
@@ -41,7 +41,7 @@ export const createTransaction = async (req, res) => {
 
     return res.status(201).json(newTransaction);
   } catch (error) {
-    logger.error("Transaction error:", error);
-    return res.status(500).json({ error: "Failed to create transaction" });
+    logger.error('Transaction error:', error);
+    return res.status(500).json({ error: 'Failed to create transaction' });
   }
 };
