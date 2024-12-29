@@ -7,6 +7,7 @@ import express from 'express';
 import { getBalance } from '../../controllers/web3/getBalance.js';
 import { createTransaction } from '../../controllers/web3/createTransaction.js';
 import { getTransaction } from '../../controllers/web3/getTransaction.js';
+import { getTransactionHistory } from '../../controllers/web3/getTransactionHistory.js';
 import authenticate from '../../middlewares/tokenAuthCheck.js';
 const router = express.Router();
 
@@ -53,6 +54,28 @@ router.get('/getBalance', getBalance);
  *         description: Failed to create transaction.
  */
 router.get('/transaction', authenticate, getTransaction);
+
+/**
+ * @swagger
+ * /api/v1/web3/transaction:
+ *   get:
+ *     summary: Get transactions from one wallet.
+ *     description: Gets all the transaction for one wallet.
+ *     parameters:
+ *       - in: body
+ *         name: address
+ *         required: true
+ *         schema:
+ *           type: string
+ *     tags:
+ *       - Web3
+ *     responses:
+ *       200:
+ *         description: Json response.
+ *       401:
+ *         description: Failed to create transaction.
+ */
+router.get('/transaction/history', authenticate, getTransactionHistory);
 
 /**
  * @swagger
