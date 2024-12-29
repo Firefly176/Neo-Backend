@@ -5,6 +5,7 @@
 
 import express from 'express';
 import { validateBody } from '../../middlewares/validator.js';
+import authenticate from '../../middlewares/tokenAuthCheck.js';
 import { loginSchema, registerSchema } from '../../utils/schemas.js';
 import { loginUser } from '../../controllers/auth/login.js';
 import { registerUser } from '../../controllers/auth/register.js';
@@ -17,6 +18,8 @@ import {
 import { getPassportUser } from '../../controllers/auth/getPassportUser.js';
 import { sessionLoginUser } from '../../controllers/auth/sessionLogin.js';
 import { sessionRegisterUser } from '../../controllers/auth/sessionRegisterUser.js';
+import jwt from 'jsonwebtoken';
+import prisma from '../../db/index.js';
 
 const router = express.Router();
 
@@ -264,5 +267,22 @@ router.post(
  *         description: Unauthorized, user not authenticated
  */
 router.get('/logout', passportLogout);
+
+// Authentication route
+router.post('/web3', passport.authenticate('web3'), (req, res) => {
+  const token = jwt.sign({ userId: req.user.id }, process.env.JWT_SECRET, {
+    expiresIn: '24h', // Token expires in 24 hours.
+  });
+  res.json({ token });
+});
+
+// Protected route example
+router.get('/profile', authenticate, async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  return res.json({ ...req.user });
+});
 
 export default router;
