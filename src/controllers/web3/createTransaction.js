@@ -8,10 +8,10 @@ export const createTransaction = async (req, res) => {
     }
 
     const user = req.user;
-    const { receiverAddress, message, amount, scheduleDateTime } = req.body;
+    const { recipientAddress, message, amount, scheduledDate } = req.body;
 
     // Validate required fields
-    if (!receiverAddress || !message || !amount || !scheduleDateTime) {
+    if (!recipientAddress || !message || !amount || !scheduledDate) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
@@ -21,10 +21,10 @@ export const createTransaction = async (req, res) => {
       // After the web3 function is completed, create the transaction record
       const transaction = await prismaClient.transaction.create({
         data: {
-          recipientAddress: receiverAddress,
+          recipientAddress,
           message,
           amount: parseFloat(amount),
-          scheduledDate: scheduleDateTime,
+          scheduledDate,
           status: 'SCHEDULED',
           user: {
             connect: {
@@ -37,7 +37,7 @@ export const createTransaction = async (req, res) => {
       return transaction;
     });
 
-    return res.status(201).json(newTransaction);
+    return res.status(201).json({ status: true });
   } catch (error) {
     logger.error('Transaction error:', error);
     return res.status(500).json({ error: 'Failed to create transaction' });
