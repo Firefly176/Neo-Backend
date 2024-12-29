@@ -5,6 +5,7 @@
 
 import express from 'express';
 import { validateBody } from '../../middlewares/validator.js';
+import authenticate from '../../middlewares/tokenAuthCheck.js';
 import { loginSchema, registerSchema } from '../../utils/schemas.js';
 import { loginUser } from '../../controllers/auth/login.js';
 import { registerUser } from '../../controllers/auth/register.js';
@@ -18,6 +19,7 @@ import { getPassportUser } from '../../controllers/auth/getPassportUser.js';
 import { sessionLoginUser } from '../../controllers/auth/sessionLogin.js';
 import { sessionRegisterUser } from '../../controllers/auth/sessionRegisterUser.js';
 import jwt from 'jsonwebtoken';
+import prisma from '../../db/index.js';
 
 const router = express.Router();
 
@@ -275,11 +277,12 @@ router.post('/web3', passport.authenticate('web3'), (req, res) => {
 });
 
 // Protected route example
-router.get('/profile', (req, res) => {
+router.get('/profile', authenticate, async (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
-  res.json({ user: req.user });
+
+  return res.json({ ...req.user });
 });
 
 export default router;
