@@ -6,6 +6,7 @@
 import express from "express";
 import { getBalance } from "../../controllers/web3/getBalance.js";
 import { createTransaction } from "../../controllers/web3/createTransaction.js";
+import authenticate from "../../middlewares/tokenAuthCheck.js";
 const router = express.Router();
 
 /**
@@ -50,7 +51,7 @@ router.get("/getBalance", getBalance);
  *       401:
  *         description: Failed to create transaction.
  */
-router.post("/transaction", createTransaction);
+router.post("/transaction", authenticate, createTransaction);
 
 router.get("/test/:id", function (req, res) {
   const id = req.params.id;
