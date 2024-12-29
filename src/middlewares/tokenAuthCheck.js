@@ -6,7 +6,7 @@
  */
 
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../config';
+import { JWT_SECRET } from '../config/index.js';
 
 /**
  * Middleware to authenticate the user using a JWT passed in the Authorization header.
