@@ -22,6 +22,9 @@ app.set('trust proxy', 1);
 app.use(
   session({
     secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    proxy: true,
     cookie: {
       secure: true,
       sameSite: 'none',
