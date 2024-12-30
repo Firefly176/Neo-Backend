@@ -1,3 +1,4 @@
+import { FRONTEND_URL } from './index.js';
 /**
  * @file corsOptions.js
  * @description Configuration for Cross-Origin Resource Sharing (CORS) to control the origins that can access the API.
@@ -11,7 +12,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:8080',
   'http://localhost:5173',
-  'https://neo-frontend-beryl.vercel.app/',
+  FRONTEND_URL,
 ];
 
 /**
