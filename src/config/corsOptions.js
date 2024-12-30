@@ -11,7 +11,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:8080',
   'http://localhost:5173',
-  'https://yourproductionurl.com',
+  'https://neo-frontend-beryl.vercel.app/',
 ];
 
 /**
