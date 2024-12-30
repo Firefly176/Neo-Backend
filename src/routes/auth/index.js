@@ -270,7 +270,7 @@ router.get('/logout', passportLogout);
 
 // Authentication route
 router.post('/web3', passport.authenticate('web3'), (req, res) => {
-  res.json({ message: 'Web3 authentication successful' });
+  res.json({ message: 'Web3 authentication successful', status: true });
 });
 
 // Protected route example
