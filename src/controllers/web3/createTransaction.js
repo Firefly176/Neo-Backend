@@ -1,5 +1,6 @@
 import prisma from '../../db/index.js';
 import logger from '../../utils/logger.js';
+import { scheduleTransaction } from '../../controllers/web3/scheduleTransaction.js';
 
 export const createTransaction = async (req, res) => {
   try {
@@ -17,6 +18,22 @@ export const createTransaction = async (req, res) => {
 
     const newTransaction = await prisma.$transaction(async (prismaClient) => {
       // Create web3 call here, if anything goes wrong, throw an error
+      // Call the scheduleTransaction function
+      const scheduleResult = await scheduleTransaction({
+        body: {
+          senderAddress: user.walletAddress,
+          recipientAddress,
+          amount,
+          scheduledTime: Math.floor(new Date(scheduledDate).getTime() / 1000)
+        }
+      }, {
+        json: (data) => data,
+        status: () => ({ json: () => {} })
+      });      
+
+      if (scheduleResult.error) {
+        throw new Error(scheduleResult.error);
+      }
 
       // After the web3 function is completed, create the transaction record
       const transaction = await prismaClient.transaction.create({

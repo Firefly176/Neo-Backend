@@ -6,6 +6,8 @@
 import express from 'express';
 import { getBalance } from '../../controllers/web3/getBalance.js';
 import { instantTransaction } from '../../controllers/web3/instantTransaction.js';
+import { scheduleTransaction } from '../../controllers/web3/scheduleTransaction.js';
+import { executeTransaction } from '../../controllers/web3/executeTransaction.js';
 import { createTransaction } from '../../controllers/web3/createTransaction.js';
 import { getTransaction } from '../../controllers/web3/getTransaction.js';
 import { getTransactionHistory } from '../../controllers/web3/getTransactionHistory.js';
@@ -120,5 +122,9 @@ router.post('/instantTransaction', instantTransaction);
  *         description: Failed to create transaction.
  */
 router.post('/transaction', createTransaction);
+
+router.post('/scheduleTransaction', scheduleTransaction);
+
+router.post('/executeTransaction', executeTransaction);
 
 export default router;

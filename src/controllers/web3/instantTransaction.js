@@ -34,10 +34,12 @@ export const instantTransaction = async (req, res) => {
     try {
         const { senderAddress, recipientAddress, amount } = req.body;
         if (!senderAddress || !recipientAddress || !amount) {
-        return res.status(400).json({ error: 'Missing required parameters' });
+            return res.status(400).json({ error: 'Missing required parameters' });
         }
-        const result = await web3Service.instantTransaction(senderAddress, recipientAddress, ethers.parseEther(amount));
-        res.json({ transactionHash: result.transactionHash });
+        const receipt = await web3Service.instantTransaction(senderAddress, recipientAddress, ethers.parseEther(amount));
+        res.json({
+            data: JSON.stringify(receipt)
+        });
     } catch (error) {
         logger.error('Error executing instant transaction:', error);
         res.status(500).json({ error: 'Failed to execute instant transaction' });
