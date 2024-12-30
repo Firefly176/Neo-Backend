@@ -277,7 +277,7 @@ router.post('/web3', passport.authenticate('web3'), (req, res) => {
 });
 
 // Protected route example
-router.get('/profile', authenticate, async (req, res) => {
+router.get('/profile', async (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: 'Unauthorized' });
   }

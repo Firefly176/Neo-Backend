@@ -5,11 +5,10 @@
 
 import express from 'express';
 import { getBalance } from '../../controllers/web3/getBalance.js';
-import { instantTransaction } from "../../controllers/web3/instantTransaction.js";
+import { instantTransaction } from '../../controllers/web3/instantTransaction.js';
 import { createTransaction } from '../../controllers/web3/createTransaction.js';
 import { getTransaction } from '../../controllers/web3/getTransaction.js';
 import { getTransactionHistory } from '../../controllers/web3/getTransactionHistory.js';
-import authenticate from '../../middlewares/tokenAuthCheck.js';
 const router = express.Router();
 
 /**
@@ -54,7 +53,7 @@ router.get('/getBalance', getBalance);
  *       401:
  *         description: Failed to create transaction.
  */
-router.get('/transaction', authenticate, getTransaction);
+router.get('/transaction', getTransaction);
 
 /**
  * @swagger
@@ -76,7 +75,7 @@ router.get('/transaction', authenticate, getTransaction);
  *       401:
  *         description: Failed to create transaction.
  */
-router.get('/transaction/history', authenticate, getTransactionHistory);
+router.get('/transaction/history', getTransactionHistory);
 
 /**
  * @swagger
@@ -120,6 +119,6 @@ router.post('/instantTransaction', instantTransaction);
  *       401:
  *         description: Failed to create transaction.
  */
-router.post('/transaction', authenticate, createTransaction);
+router.post('/transaction', createTransaction);
 
 export default router;
