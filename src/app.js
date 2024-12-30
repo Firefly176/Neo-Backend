@@ -21,14 +21,9 @@ const app = express();
 app.use(
   session({
     secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
     cookie: {
       secure: true,
-      // httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      sameSite: 'none', // Change from 'strict' to 'none'
-      domain: '.vercel.app', // Add this
+      sameSite: 'none',
     },
   }),
 );

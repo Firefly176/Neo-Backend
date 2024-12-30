@@ -270,18 +270,7 @@ router.get('/logout', passportLogout);
 
 // Authentication route
 router.post('/web3', passport.authenticate('web3'), (req, res) => {
-  const token = jwt.sign({ userId: req.user.id }, process.env.JWT_SECRET, {
-    expiresIn: '24h', // Token expires in 24 hours.
-  });
-  res
-    .cookie('accessToken', token, {
-      httpOnly: true,
-      expires: token.expiresIn,
-      secure: true,
-      sameSite: 'none',
-    })
-    .status(200)
-    .json({ token });
+  res.json({ message: 'Web3 authentication successful' });
 });
 
 // Protected route example
