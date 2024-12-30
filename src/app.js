@@ -25,7 +25,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: true,
-      httpOnly: true,
+      // httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
       sameSite: 'none', // Change from 'strict' to 'none'
       domain: '.vercel.app', // Add this
