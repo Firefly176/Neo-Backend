@@ -96,16 +96,16 @@ export const LINKEDIN_REDIRECT_URI = process.env.LINKEDIN_REDIRECT_URI;
  * RPC URL
  * @constant {string}
  */
-export const rpcUrl = process.env.RPC_URL || 'http://127.0.0.1:8545';
+export const rpcUrl = process.env.RPC_URL || "http://127.0.0.1:8545";
 
 /**
  * Mock Token Contract Address
  * @constant {string}
  */
-export const mockTokenAddress = process.env.MOCK_TOKEN_ADDRESS;
+export const mockTokenAddress = process.env.MOCK_TOKEN_ADDRESS || "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
 /**
  * Payment Scheduler Contract Address
  * @constant {string}
  */
-export const paymentSchedulerAddress = process.env.PAYMENT_SCHEDULER_ADDRESS;
+export const paymentSchedulerAddress = process.env.PAYMENT_SCHEDULER_ADDRESS || "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
