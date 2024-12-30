@@ -14,6 +14,7 @@ import swaggerSpec from './config/swaggerConfig.js';
 
 const app = express();
 
+app.set('trust proxy', 1);
 /**
  * Configures and initializes the session middleware.
  * @see {@link https://www.npmjs.com/package/express-session|express-session}
