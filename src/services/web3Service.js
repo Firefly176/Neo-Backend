@@ -34,10 +34,17 @@ class Web3Service {
       const signer = await this.provider.getSigner(senderAddress);
       const contractWithSigner = this.contract.connect(signer);
       const fee = await contractWithSigner.calculateDynamicFee(amount);
-      const tx = await contractWithSigner.scheduleTransaction(recipientAddress, amount, scheduledTime, { value: amount + fee });
+      const tx = await contractWithSigner.scheduleTransaction(recipientAddress, amount, scheduledTime, { value: amount +fee });
       const receipt = await tx.wait();
-      console.log(receipt);
-      return receipt;
+      
+      const event = receipt.logs.find(log => log.topics[0] === ethers.id("TransactionScheduled(uint256,address,address,uint256,uint256)"));
+      
+      if (event) {
+        const [id] = ethers.AbiCoder.defaultAbiCoder().decode(["uint256"], event.topics[1]);
+        return { transactionHash: receipt.transactionHash, id: id.toString() };
+      } else {
+        throw new Error("TransactionScheduled event not found in transaction receipt");
+      }
     }
   
     async executeTransaction(id) {
