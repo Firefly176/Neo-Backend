@@ -27,6 +27,7 @@ Welcome to the Neo-Backend repository, the server-side component of our decentra
   - Currency Symbol: GAS
 
 ## Documentation
+
 ### Smart Contract Integration
 
 The backend interacts with the `PaymentScheduler` smart contract using ethers.js. Key functions include:

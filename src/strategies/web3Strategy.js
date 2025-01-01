@@ -6,8 +6,9 @@ import jwt from 'jsonwebtoken';
 
 const web3 = new Web3(Web3.givenProvider || 'http://localhost:8545');
 
-passport.use('web3', new CustomStrategy(
-  async (req, done) => {
+passport.use(
+  'web3',
+  new CustomStrategy(async (req, done) => {
     try {
       const { signature, message, address } = req.body;
 
@@ -20,12 +21,12 @@ passport.use('web3', new CustomStrategy(
 
       // Find or create user
       let user = await prisma.user.findUnique({
-        where: { walletAddress: address }
+        where: { walletAddress: address },
       });
 
       if (!user) {
         user = await prisma.user.create({
-          data: { walletAddress: address }
+          data: { walletAddress: address },
         });
       }
 
@@ -33,7 +34,7 @@ passport.use('web3', new CustomStrategy(
     } catch (error) {
       return done(error);
     }
-  }
-));
+  }),
+);
 
 export default passport;
