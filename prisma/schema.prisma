@@ -17,6 +17,8 @@ model User {
   updatedAt     DateTime      @updatedAt
   deletedAt     DateTime?
   transactions  Transaction[]
+
+  @@map(name: "users")
 }
 
 model Transaction {
@@ -28,14 +30,21 @@ model Transaction {
   isDeleted        Boolean           @default(false)
   scheduledDate    DateTime
   status           TransactionStatus
+  blockChainTxId   String?
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   deletedAt        DateTime?
   user             User              @relation(fields: [userId], references: [id])
+
+  @@map(name: "transaction")
 }
 
 enum TransactionStatus {
   SCHEDULED
+  PROCESSING
   EXECUTED
   CANCELLED
+  FAILED
+
+  @@map(name: "transaction_status")
 }
