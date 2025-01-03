@@ -18,7 +18,7 @@ model User {
   deletedAt     DateTime?
   transactions  Transaction[]
 
-  @@map(name: "users")
+  @@map("users")
 }
 
 model Transaction {
@@ -34,9 +34,10 @@ model Transaction {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
   deletedAt        DateTime?
+  blockChainTxDump Json?
   user             User              @relation(fields: [userId], references: [id])
 
-  @@map(name: "transaction")
+  @@map("transaction")
 }
 
 enum TransactionStatus {
@@ -46,5 +47,5 @@ enum TransactionStatus {
   CANCELLED
   FAILED
 
-  @@map(name: "transaction_status")
+  @@map("transaction_status")
 }
