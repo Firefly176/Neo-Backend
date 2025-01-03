@@ -18,6 +18,8 @@ export const createTransaction = async (req, res) => {
       return res.status(400).json({ error: 'Transaction Failed!' });
     }
 
+    const parsedResult = JSON.parse(result);
+
     // await prisma.$transaction(async (prismaClient) => {
     // Create web3 call here, if anything goes wrong, throw an error
     // Call the scheduleTransaction function
@@ -40,6 +42,9 @@ export const createTransaction = async (req, res) => {
         amount: parseFloat(amount),
         scheduledDate,
         status: 'SCHEDULED',
+        blockChainTxId:
+          parsedResult.events.TransactionScheduled.returnValues.id,
+        blockChainTxDump: parsedResult,
         user: {
           connect: {
             walletAddress: user.walletAddress,
