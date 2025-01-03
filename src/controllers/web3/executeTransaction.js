@@ -12,7 +12,7 @@ export const executeTransaction = async (req, res) => {
     const receipt = await web3Service.executeTransaction(id);
 
     res.json({
-        data: JSON.stringify(receipt)
+      data: JSON.stringify(receipt),
     });
   } catch (error) {
     logger.error('Error executing transaction:', error);
